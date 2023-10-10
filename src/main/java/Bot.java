@@ -1,32 +1,33 @@
-public class Bot {
-    public String start(String request, String[] listCommand) {
-        StringBuilder stringBuilder = new StringBuilder();
-        switch (request) {
-            case ("/help"):
-                stringBuilder.append("Список команд + пояснение\n");
-                for (var command : listCommand) {
-                    stringBuilder.append(command + "\n");
-                }
-                break;
-            case ("/weather"):
-                stringBuilder.append("Пока в разработке");
-                break;
-            case ("/joke"):
-                stringBuilder.append("Пока в разработке");
-                break;
-            case ("/wikipedia"):
-                stringBuilder.append("Пока в разработке");
-                break;
-            case ("/game"):
-                stringBuilder.append("В скорой разработке");
-                //game();
-                break;
-            case ("/exit"):
-                stringBuilder.append("До связи");
-                break;
-            default:
-                stringBuilder.append("Вы написали: " + request + "Напишите /help, чтобы узнать список команд");
-        }
-        return stringBuilder.toString();
+import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
+public class Bot  extends TelegramLongPollingBot {
+    @Override
+    public String getBotUsername() {
+        return "Giggle_Box_bot";
     }
+
+    @Override
+    public String getBotToken(){
+        return "6647213028:AAGiDWE2Lx-7caXdsrORS1JfXrGgGGbFJaM";
+    }
+    @Override
+    public void onUpdateReceived(Update update){
+
+        String chatId = update.getMessage().getChatId().toString();
+        String text = update.getMessage().getText();
+
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(chatId);
+        sendMessage.setText(text);
+
+        try {
+            this.execute(sendMessage);
+        } catch (TelegramApiException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
