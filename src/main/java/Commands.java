@@ -3,16 +3,19 @@ import java.util.Random;
 import java.util.List;
 
 public class Commands {
+    private static int jokeCount = 0;
     public static String start(String request){
         StringBuilder stringBuilder = new StringBuilder();
         Random random = new Random();
-        int jokeCount = random.nextInt(10);
         switch (request) {
             case ("/weather"):
                 return ("Пока в разработке");
             case ("/joke"):
                 List<String> jokes = Reader.read("C:\\Users\\HP\\Desktop\\Java\\OOP-v2\\src\\joke.txt");
-                return jokes.get(jokeCount);
+                if (jokeCount == 10){
+                    jokeCount = 0;
+                }
+                return jokes.get(jokeCount++);
             case ("/wikipedia"):
                 return("Пока в разработке");
             case ("/game"):
