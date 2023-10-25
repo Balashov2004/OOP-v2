@@ -1,4 +1,7 @@
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Random;
 import java.util.List;
 
@@ -11,7 +14,14 @@ public class Commands {
             case ("/weather"):
                 return ("Пока в разработке");
             case ("/joke"):
-                List<String> jokes = Reader.read("C:\\Users\\HP\\Desktop\\Java\\OOP-v2\\src\\joke.txt");
+                List<String> jokes = List.of();
+                try {
+                    String str = new String(Commands.class.getResourceAsStream("/joke.txt").readAllBytes(), StandardCharsets.UTF_8);
+                    jokes = List.of(str);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                //jokes = Reader.read("C:\\Users\\HP\\Desktop\\Java\\OOP-v2\\src\\joke.txt");
                 if (jokeCount == 10){
                     jokeCount = 0;
                 }
