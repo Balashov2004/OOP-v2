@@ -19,7 +19,7 @@ public class MyTests {
     }
     @Test
     public  void testJoke(){
-        List<String> jokes = Reader.read("C:\\Users\\HP\\Desktop\\Java\\OOP-v2\\src\\joke.txt");
+        List<String> jokes = Reader.read("./joke.txt");
         String request = "/joke";
         for (int i = 0; i < 10; i++) {
             Assert.assertEquals(jokes.get(i), commands.start(request));
