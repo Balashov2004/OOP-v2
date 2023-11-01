@@ -15,14 +15,14 @@ public class MyTests {
     @Test
     public void testDefault(){
         String request = "TyTy paravozik";
-        Assert.assertEquals("Вы написали: " + request + "Напишите /help, чтобы узнать список команд", commands.start(request));
+        Assert.assertEquals("Вы написали: " + request + "Напишите /help, чтобы узнать список команд", commands.start(request, "777"));
     }
     @Test
     public  void testJoke(){
         List<String> jokes = Reader.read("./joke.txt");
         String request = "/joke";
         for (int i = 0; i < 10; i++) {
-            Assert.assertEquals(jokes.get(i), commands.start(request));
+            Assert.assertEquals(jokes.get(i), commands.start(request, "777"));
         }
     }
 //    @Test
