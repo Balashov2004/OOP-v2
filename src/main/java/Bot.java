@@ -7,8 +7,14 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class Bot extends TelegramLongPollingBot {
     @Override
@@ -18,21 +24,30 @@ public class Bot extends TelegramLongPollingBot {
 
     @Override
     public String getBotToken() {
-        return "6647213028:AAGiDWE2Lx-7caXdsrORS1JfXrGgGGbFJaM";
+        String str = null;
+        try {
+            str = new String(Commands.class.getResourceAsStream("/token.txt").readAllBytes(), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return str;
     }
 
     @Override
     public void onUpdateReceived(Update update) {
         String[] listCommand = {"/help: список команд", "/exit: завершить работу", "/weather: погода", "/joke: анекдотыа", "/wikipedia: википедия", "/game: blackjacke"};
-
+        //List<String> arrayID = new ArrayList<String>();
         Message message = update.getMessage();
         String answer = "";
-        if (message.hasText()){
+        if (message.hasText()) {
             String text = message.getText();
             SendMessage sendMessage = new SendMessage();
-            if (text.equals("/start")){
+            if (text.equals("/start")) {
                 sendMessage.setText("Hello, I'm Giggle!");
                 sendMessage.setChatId(message.getChatId());
+//                if (!chatID.contains((CharSequence) arrayID)){
+//                    arrayID.add(chatID);
+//                }
 
                 ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
                 List<KeyboardRow> keyboardRowList = new ArrayList<>();
@@ -51,17 +66,19 @@ public class Bot extends TelegramLongPollingBot {
                 sendMessage.setReplyMarkup(replyKeyboardMarkup); // Установка клавиатуры
                 try {
                     execute(sendMessage);
-                } catch (TelegramApiException e){
+                } catch (TelegramApiException e) {
                     e.printStackTrace();
                 }
-            }
-            else {
-                answer = Commands.start(text);
+            } else {
+                Long chatID = message.getChatId();
+                String chatIDString = chatID.toString();
+//                System.out.println(chatIDString);
+                answer = Commands.start(text, chatIDString);
                 sendMessage.setText(answer);
                 sendMessage.setChatId(message.getChatId());
                 try {
                     execute(sendMessage);
-                } catch (TelegramApiException e){
+                } catch (TelegramApiException e) {
                     e.printStackTrace();
                 }
             }
