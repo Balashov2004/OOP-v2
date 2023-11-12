@@ -1,3 +1,4 @@
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -52,9 +53,16 @@ public class DataParsingWeather {
     public static String toJson(String request){
         JsonParser parser = new JsonParser();
         JsonObject jsonObject = parser.parse(request).getAsJsonObject();
-        System.out.println("JSON данные: " + jsonObject);
-        JsonObject factObject = jsonObject.getAsJsonObject("fact");
-        return String.valueOf(factObject.get("temp"));
+        JsonArray forecastsArray = jsonObject.getAsJsonArray("forecasts");
+        JsonObject firstDay = forecastsArray.get(0).getAsJsonObject().getAsJsonObject("parts").getAsJsonObject("day_short");
+        JsonObject secondDay = forecastsArray.get(1).getAsJsonObject().getAsJsonObject("parts").getAsJsonObject("day_short");
+        JsonObject thirdDay = forecastsArray.get(2).getAsJsonObject().getAsJsonObject("parts").getAsJsonObject("day_short");
+        String forecasts;
+        forecasts = forecastsArray.get(0).getAsJsonObject().get("date") + " " + firstDay.get("temp") + " condition " + firstDay.get("condition") + "\n" +
+                forecastsArray.get(1).getAsJsonObject().get("date") + " " + secondDay.get("temp") + " condition " + secondDay.get("condition") + "\n" +
+                forecastsArray.get(2).getAsJsonObject().get("date") + " " + thirdDay.get("temp") + " condition " + thirdDay.get("condition");
+        //System.out.println(forecasts);
+        return forecasts;
     }
 }
 
