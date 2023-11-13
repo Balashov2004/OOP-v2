@@ -1,13 +1,10 @@
-import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 import java.util.List;
 
 
@@ -42,7 +39,7 @@ public class Commands {
 //                }
 
                 try {
-                    return DataParsingCity.getter();
+                    return DataParsingCoordinates.getter();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
