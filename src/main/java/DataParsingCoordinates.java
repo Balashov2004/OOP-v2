@@ -8,16 +8,14 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 public class DataParsingCoordinates {
-    public static String getter() throws IOException {
-        String country = "Germany";
-        String city = "Berlin";
+    public static String getter(String city) throws IOException {
         String key = null;
         try {
             key = new String(Commands.class.getResourceAsStream("/keyCity.txt").readAllBytes(), StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        String urlString = "https://api.opencagedata.com/geocode/v1/json?q=" + city + ",+" + country + "&key=" + key;
+        String urlString = "https://api.opencagedata.com/geocode/v1/json?q=" + city + "&key=" + key;
         URL url = new URL(urlString);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");

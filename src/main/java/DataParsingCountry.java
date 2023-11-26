@@ -9,7 +9,7 @@ import java.nio.charset.StandardCharsets;
 public class DataParsingCountry {
     public static String getter() throws IOException {
         String key = null;
-        String urlString = "http://htmlweb.ru/geo/api.php?locations&json&api_key=API_KEY_из_профиля;
+        String urlString = "http://htmlweb.ru/geo/api.php?country=Россия&json&api_key=e1a809d5ac2813d9a190670b09acee6c";
         URL url = new URL(urlString);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
@@ -24,8 +24,8 @@ public class DataParsingCountry {
             }
             reader.close();
             String responseData = response.toString();
-            //System.out.println("Полученные данные: " + responseData);
-            return toJson(responseData);
+            System.out.println("Полученные данные: " + responseData);
+            return "0";
 
         } else {
             System.out.println("Ошибка при получении данных. Код ответа: " + responseCode);

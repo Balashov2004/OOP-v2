@@ -69,7 +69,11 @@ public class Bot extends TelegramLongPollingBot {
                 Long chatID = message.getChatId();
                 String chatIDString = chatID.toString();
 //                System.out.println(chatIDString);
-                answer = Commands.start(text, chatIDString);
+                try {
+                    answer = Commands.start(text, chatIDString);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
                 sendMessage.setText(answer);
                 sendMessage.setChatId(message.getChatId());
                 try {
