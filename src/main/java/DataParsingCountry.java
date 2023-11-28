@@ -9,7 +9,7 @@ import java.nio.charset.StandardCharsets;
 public class DataParsingCountry {
     public static String getter() throws IOException {
         String key = null;
-        String urlString = "http://htmlweb.ru/geo/api.php?locations&json&api_key=API_KEY_из_профиля;
+        String urlString = "http://htmlweb.ru/geo/api.php?locations&json&api_key=API_KEY_из_профиля";
         URL url = new URL(urlString);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");

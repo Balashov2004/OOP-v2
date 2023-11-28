@@ -51,6 +51,7 @@ public class DataParsingWeather {
         return null;
     }
     public static String toJson(String request){
+        //System.out.println(request);
         JsonParser parser = new JsonParser();
         JsonObject jsonObject = parser.parse(request).getAsJsonObject();
         JsonArray forecastsArray = jsonObject.getAsJsonArray("forecasts");

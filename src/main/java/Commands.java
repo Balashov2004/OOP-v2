@@ -14,7 +14,10 @@ public class Commands {
     static SendMessage sendMessage = new SendMessage();
     private static int jokeCount = 0;
     static Map<String, Integer> chatIDJokeCount = new HashMap<String, Integer>();
-    public static String start(String request, String chatID) {
+    private static Map<String, Boolean> isWaitingForCity = new HashMap<>();
+    private static Map<String, String> cityMap = new HashMap<>();
+
+    public static String start(String request, String chatID) throws IOException {
         StringBuilder stringBuilder = new StringBuilder();
         if (!chatIDJokeCount.containsKey(chatID)) {
             chatIDJokeCount.put(chatID, jokeCount);
@@ -24,26 +27,15 @@ public class Commands {
         }
         switch (request) {
             case ("/weather"):
-
-                // НИЖЕ НУЖНО РЕАЛИЗОВАТЬ ЧТОБЫ ПОЛЬЗОВАТЕЛЬ ВВОДИЛ СНАЧАЛА СТРАНУ ПОТОМ ГОРОД ТО ЧТО НИЖЕ В КОММЕНТАРИИ НЕ РАБОТАЕТ
-
-//                sendMessage.setText("Введите страну:");
-//                sendMessage.setChatId(message.getChatId());
-//                execute(String.valueOf(sendMessage));
-//                if (message.hasText()) {
-//                    String country = message.getText();
-//
-//                    sendMessage.setText("Введите город:");
-//                    sendMessage.setChatId(message.getChatId());
-//                    execute(String.valueOf(sendMessage));
-//                }
-
-                try {
-                    return DataParsingCoordinates.getter();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+                String spisok = DataParsingCity.parser().toString();
+                //System.out.println(spisok);
+                if (!isWaitingForCity.containsKey(chatID) || !isWaitingForCity.get(chatID)) {
+                    isWaitingForCity.put(chatID, true);
+                    return "Введите город для получения погоды а Англйском языке или выберите из списка:\n" + spisok;
+                } else {
+                    isWaitingForCity.put(chatID, false);
+                    return getWeather(cityMap.get(chatID));
                 }
-
             case ("/joke"):
                 List<String> jokes = Reader.read("/joke.txt");
                 if (jokeCount == 10) {
@@ -59,7 +51,18 @@ public class Commands {
             case ("/exit"):
                 return ("До связи");
             default:
-                return ("Вы написали: " + request + "Напишите /help, чтобы узнать список команд");
+                if (isWaitingForCity.containsKey(chatID) && isWaitingForCity.get(chatID)) {
+                    cityMap.put(chatID, request);
+                    isWaitingForCity.put(chatID, false);
+                    return getWeather(request);
+                } else {
+                    return ("Вы написали: " + request + "Напишите /help, чтобы узнать список команд");
+                }
         }
     }
+
+    private static String getWeather(String city) throws IOException {
+        return DataParsingCoordinates.getter(city);
+    }
+
 }
