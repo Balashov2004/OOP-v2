@@ -27,11 +27,11 @@ public class Commands {
         }
         switch (request) {
             case ("/weather"):
-                String spisok = DataParsingCity.parser().toString();
+                String spisok = DataParseCity.parser().toString();
                 //System.out.println(spisok);
                 if (!isWaitingForCity.containsKey(chatID) || !isWaitingForCity.get(chatID)) {
                     isWaitingForCity.put(chatID, true);
-                    return "Введите город для получения погоды а Англйском языке или выберите из списка:\n" + spisok;
+                    return "Введите город для получения погоды на Англйском языке или выберите из списка:\n" + spisok;
                 } else {
                     isWaitingForCity.put(chatID, false);
                     return getWeather(cityMap.get(chatID));
@@ -62,7 +62,7 @@ public class Commands {
     }
 
     private static String getWeather(String city) throws IOException {
-        return DataParsingCoordinates.getter(city);
+        return DataParseCoordinates.getter(city);
     }
 
 }

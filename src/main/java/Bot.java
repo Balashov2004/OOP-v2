@@ -32,7 +32,6 @@ public class Bot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         String[] listCommand = {"/help: список команд", "/exit: завершить работу", "/weather: погода", "/joke: анекдотыа", "/wikipedia: википедия", "/game: blackjacke"};
-        //List<String> arrayID = new ArrayList<String>();
         Message message = update.getMessage();
         String answer = "";
         if (message.hasText()) {
@@ -41,9 +40,6 @@ public class Bot extends TelegramLongPollingBot {
             if (text.equals("/start")) {
                 sendMessage.setText("Hello, I'm Giggle!");
                 sendMessage.setChatId(message.getChatId());
-//                if (!chatID.contains((CharSequence) arrayID)){
-//                    arrayID.add(chatID);
-//                }
 
                 ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
                 List<KeyboardRow> keyboardRowList = new ArrayList<>();
@@ -68,7 +64,6 @@ public class Bot extends TelegramLongPollingBot {
             } else {
                 Long chatID = message.getChatId();
                 String chatIDString = chatID.toString();
-//                System.out.println(chatIDString);
                 try {
                     answer = Commands.start(text, chatIDString);
                 } catch (IOException e) {

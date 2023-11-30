@@ -1,5 +1,4 @@
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -10,7 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
-public class DataParsingWeather {
+public class DataParseWeather {
     public static String getter(String lat, String lng) throws IOException {
 
         String urlString = "https://api.weather.yandex.ru/v2/forecast?lat=" + lat + "&lon=" + lng + "&lang=ru_RU" + "$limit=3";
@@ -39,7 +38,6 @@ public class DataParsingWeather {
             }
             reader.close();
             String responseData = response.toString();
-            //System.out.println("Полученные данные: " + responseData);
             return toJson(responseData);
 
         } else {
@@ -51,7 +49,6 @@ public class DataParsingWeather {
         return null;
     }
     public static String toJson(String request){
-        //System.out.println(request);
         JsonParser parser = new JsonParser();
         JsonObject jsonObject = parser.parse(request).getAsJsonObject();
         JsonArray forecastsArray = jsonObject.getAsJsonArray("forecasts");
@@ -62,7 +59,6 @@ public class DataParsingWeather {
         forecasts = forecastsArray.get(0).getAsJsonObject().get("date") + " " + firstDay.get("temp") + " condition " + firstDay.get("condition") + "\n" +
                 forecastsArray.get(1).getAsJsonObject().get("date") + " " + secondDay.get("temp") + " condition " + secondDay.get("condition") + "\n" +
                 forecastsArray.get(2).getAsJsonObject().get("date") + " " + thirdDay.get("temp") + " condition " + thirdDay.get("condition");
-        //System.out.println(forecasts);
         return forecasts;
     }
 }

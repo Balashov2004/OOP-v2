@@ -1,4 +1,3 @@
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -6,12 +5,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class MyTests {
-//    String[] listCommand = {"/help: список команд", "/exit: завершить работу", "/weather: погода", "/joke: анекдоты", "/wikipedia: википедия", "/game: blackjacke"};
-//    @Test
-//    public void testExit(){
-//        Bot bot = new Bot();
-//        Assert.assertEquals("До связи", bot.start("/exit", listCommand));
-//    }
+
     Commands commands = new Commands();
     @Test
     public void testDefault() throws IOException {
@@ -32,19 +26,13 @@ public class MyTests {
         String answer = "\"2023-11-28\" 7 condition \"clear\"\n" +
                 "\"2023-11-29\" 5 condition \"cloudy\"\n" +
                 "\"2023-11-30\" 4 condition \"overcast\"";
-        Assert.assertEquals(DataParsingWeather.toJson(request), answer);
+        Assert.assertEquals(DataParseWeather.toJson(request), answer);
     }
     @Test
     public void testWeather() throws IOException{
         String request = "/weather";
-        String answer = "Введите город для получения погоды а Англйском языке или выберите из списка:\n" +
+        String answer = "Введите город для получения погоды на Англйском языке или выберите из списка:\n" +
                 "/Abakan, /Abaza, /Abdulino, /Abinsk, /Achinsk, /Adygeysk, /Agidel, /Agryz, /Ak-Dovurak, /Akhtubinsk, /Aksay, /Alagir, /Alapayevsk, /Alatyr, /Aldan, /Aleksin, /Alexandrov, /Alexandrovsk, /Alexandrovsk-Sakhalinsky, /Alexeyevka, /Aleysk, /Almetyevsk, /Alupka, /Alzamay, /Amursk, ";
         Assert.assertEquals(answer, commands.start(request, "777"));
     }
-//    @Test
-//    public void testHelp(){
-//        Bot bot = new Bot();
-//        String commandString = String.join("\n", listCommand);
-//        Assert.assertEquals("Список команд + пояснение\n" + commandString + "\n", bot.start("/help", listCommand));
-//    }
 }
