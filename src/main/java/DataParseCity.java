@@ -30,6 +30,7 @@ public class DataParseCity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            sb.append(".");
             return sb.toString();
         }
 }

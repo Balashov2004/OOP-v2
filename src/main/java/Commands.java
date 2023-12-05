@@ -62,7 +62,10 @@ public class Commands {
     }
 
     private static String getWeather(String city) throws IOException {
-        return DataParseCoordinates.getter(city);
+        CoordinatesParserInterface сoordinatesParser = new DataParseCoordinates();
+        String[] arrayCoordinate = сoordinatesParser.getCoordinates(city);
+        WeatherParserInterface weatherParser = new DataParseWeather();
+        return weatherParser.getWeather(arrayCoordinate[0], arrayCoordinate[1]);
     }
 
 }

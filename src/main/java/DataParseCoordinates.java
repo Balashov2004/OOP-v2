@@ -7,8 +7,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
-public class DataParseCoordinates {
-    public static String getter(String city) throws IOException {
+interface CoordinatesParserInterface {
+    String[] getCoordinates(String city) throws IOException;
+}
+public class DataParseCoordinates implements CoordinatesParserInterface{
+    @Override
+    public String[] getCoordinates(String city) throws IOException {
         String key = null;
         try {
             key = new String(Commands.class.getResourceAsStream("/keyCity.txt").readAllBytes(), StandardCharsets.UTF_8);
@@ -39,14 +43,13 @@ public class DataParseCoordinates {
         connection.disconnect();
         return null;
     }
-    public static String toJson(String request) throws IOException {
+    public static String[] toJson(String request) throws IOException {
         JsonParser parser = new JsonParser();
         JsonObject jsonObject = parser.parse(request).getAsJsonObject();
         JsonArray resultsArray = jsonObject.getAsJsonArray("results");
         JsonObject firstElement  = resultsArray.get(0).getAsJsonObject();
         JsonObject geometryObject = firstElement.getAsJsonObject("geometry");
-        String lat = String.valueOf(geometryObject.get("lat")); // Широта
-        String lng = String.valueOf(geometryObject.get("lng")); // Долгота
-        return DataParseWeather.getter(lat, lng);
+        String[] arrayCoordinate = {String.valueOf(geometryObject.get("lat")), String.valueOf(geometryObject.get("lng"))}; // Широта Долгота
+        return arrayCoordinate;
     }
 }

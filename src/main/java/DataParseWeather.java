@@ -9,8 +9,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
-public class DataParseWeather {
-    public static String getter(String lat, String lng) throws IOException {
+interface WeatherParserInterface {
+    String getWeather(String lat, String lng) throws IOException;
+}
+public class DataParseWeather implements WeatherParserInterface{
+    @Override
+    public String getWeather(String lat, String lng) throws IOException {
 
         String urlString = "https://api.weather.yandex.ru/v2/forecast?lat=" + lat + "&lon=" + lng + "&lang=ru_RU" + "$limit=3";
         URL url = new URL(urlString);
