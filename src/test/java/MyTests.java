@@ -89,4 +89,21 @@ public class MyTests {
 
         Assertions.assertEquals(expectedWeather, actualWeather);
     }
+
+    @Test
+    public void testGetWeatherNumber2() throws IOException {
+        CoordinatesParserInterface coordinatesParser = Mockito.mock(CoordinatesParserInterface.class);
+        WeatherParserInterface weatherParser = Mockito.mock(WeatherParserInterface.class);
+
+        String[] coordinates = {"12.3456", "78.9012"};
+        Mockito.when(coordinatesParser.getCoordinates(Mockito.anyString())).thenReturn(coordinates);
+        Mockito.when(weatherParser.getWeather(Mockito.anyString(), Mockito.anyString())).thenReturn("weather response");
+
+        CityWeatherService cityWeatherService = new CityWeatherService(coordinatesParser, weatherParser);
+
+        String weather = cityWeatherService.getCityWeather("CityName");
+
+        Assertions.assertNotNull(weather);
+        Assertions.assertEquals("weather response", weather);
+    }
 }

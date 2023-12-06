@@ -63,9 +63,10 @@ public class Commands {
 
     private static String getWeather(String city) throws IOException {
         CoordinatesParserInterface сoordinatesParser = new DataParseCoordinates();
-        String[] arrayCoordinate = сoordinatesParser.getCoordinates(city);
+        //String[] arrayCoordinate = сoordinatesParser.getCoordinates(city);
         WeatherParserInterface weatherParser = new DataParseWeather();
-        return weatherParser.getWeather(arrayCoordinate[0], arrayCoordinate[1]);
+        CityWeatherService cityWeatherService = new CityWeatherService(сoordinatesParser, weatherParser);
+        //return weatherParser.getWeather(arrayCoordinate[0], arrayCoordinate[1]);
+        return cityWeatherService.getCityWeather(city);
     }
-
 }
