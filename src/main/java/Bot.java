@@ -7,14 +7,10 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 public class Bot extends TelegramLongPollingBot {
     @Override
@@ -36,7 +32,6 @@ public class Bot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         String[] listCommand = {"/help: список команд", "/exit: завершить работу", "/weather: погода", "/joke: анекдотыа", "/wikipedia: википедия", "/game: blackjacke"};
-        //List<String> arrayID = new ArrayList<String>();
         Message message = update.getMessage();
         String answer = "";
         if (message.hasText()) {
@@ -45,9 +40,6 @@ public class Bot extends TelegramLongPollingBot {
             if (text.equals("/start")) {
                 sendMessage.setText("Hello, I'm Giggle!");
                 sendMessage.setChatId(message.getChatId());
-//                if (!chatID.contains((CharSequence) arrayID)){
-//                    arrayID.add(chatID);
-//                }
 
                 ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
                 List<KeyboardRow> keyboardRowList = new ArrayList<>();
@@ -72,8 +64,11 @@ public class Bot extends TelegramLongPollingBot {
             } else {
                 Long chatID = message.getChatId();
                 String chatIDString = chatID.toString();
-//                System.out.println(chatIDString);
-                answer = Commands.start(text, chatIDString);
+                try {
+                    answer = Commands.start(text, chatIDString);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
                 sendMessage.setText(answer);
                 sendMessage.setChatId(message.getChatId());
                 try {
