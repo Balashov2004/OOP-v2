@@ -48,13 +48,27 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
-
-
+//    public int count = -2;
+//    public boolean flag = false;
+    public HashMap<String, HashMap<String, String>> profiles = new HashMap<>();
+    public HashMap<String, Integer[]> dictionary = new HashMap<>();
     @Override
     public void onUpdateReceived(Update update) {
         String[] listCommand = {"/help: список команд", "/exit: завершить работу", "/weather: погода", "/joke: анекдотыа", "/tinder: знакомства", "/game: blackjacke"};
         Message message = update.getMessage();
         String answer = "";
+        Long chatID = message.getChatId();
+        if (!dictionary.containsKey(String.valueOf(chatID))) {
+            Integer[] values = {-2, 0};
+            dictionary.put(String.valueOf(chatID), values);
+        }
+        Integer[] arr = dictionary.get(String.valueOf(chatID));
+        if(!profiles.containsKey(String.valueOf(chatID))){
+            HashMap<String, String> profile = new HashMap<>();
+            profiles.put(String.valueOf(chatID), profile);
+        }
+        HashMap<String, String> profil = profiles.get(String.valueOf(chatID));
+
         if (message.hasText()) {
             String text = message.getText();
             SendMessage sendMessage = new SendMessage();
@@ -84,22 +98,30 @@ public class Bot extends TelegramLongPollingBot {
                     e.printStackTrace();
                 }
             }
-            if (text.equals("/tinder")){
-                System.out.println("here");
-                HashMap<String, String> profile = new HashMap<>();
-                Long chatID = message.getChatId();
+            else if (text.equals("/tinder") || arr[1] == 1){
+//                System.out.println(chatID);
                 if (UserExistsChecker.checkUserExistence(String.valueOf(chatID))) {
-//                    Tinder.tinder(chatID);
                     ptintToTg(chatID, "exit from tinder");
                 }
                 else {
-                    profile = Form.form(String.valueOf(chatID), profile);
-                    RegistrationUsers.signUpUser(profile);
-                    ptintToTg(chatID, "Добавлен новый пользователь");
+                    arr[1] = 1;
+                    if (arr[0] < 9) {
+                        arr[0] += 1;
+                        dictionary.put(String.valueOf(chatID), arr);
+                        profil = Form.form(String.valueOf(chatID), profil, arr[0], text);
+                        profiles.put(String.valueOf(chatID), profil);
+                    }
+                    else {
+                        arr[0] = -2;
+                        arr[1] = 0;
+                        dictionary.put(String.valueOf(chatID), arr);
+                        RegistrationUsers.signUpUser(profil);
+                        profil.clear();
+                        ptintToTg(chatID, "Добавлен новый пользователь");
+                    }
                 }
             }
              else {
-                Long chatID = message.getChatId();
                 String chatIDString = chatID.toString();
                 try {
                     answer = Commands.start(text, chatIDString);
