@@ -1,4 +1,6 @@
+import com.google.protobuf.StringValue;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -6,11 +8,15 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMar
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
+import org.telegram.telegrambots.meta.updateshandlers.SentCallback;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
 
 public class Bot extends TelegramLongPollingBot {
     @Override
@@ -29,9 +35,24 @@ public class Bot extends TelegramLongPollingBot {
         return str;
     }
 
+
+    public void ptintToTg(Long chatId, String mes){
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setText(mes);
+        sendMessage.setChatId(chatId);
+        try {
+            // Отправка сообщения
+            execute(sendMessage);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
     @Override
     public void onUpdateReceived(Update update) {
-        String[] listCommand = {"/help: список команд", "/exit: завершить работу", "/weather: погода", "/joke: анекдотыа", "/wikipedia: википедия", "/game: blackjacke"};
+        String[] listCommand = {"/help: список команд", "/exit: завершить работу", "/weather: погода", "/joke: анекдотыа", "/tinder: знакомства", "/game: blackjacke"};
         Message message = update.getMessage();
         String answer = "";
         if (message.hasText()) {
@@ -56,12 +77,28 @@ public class Bot extends TelegramLongPollingBot {
                 replyKeyboardMarkup.setKeyboard(keyboardRowList);
                 replyKeyboardMarkup.setOneTimeKeyboard(true); // Установка флага OneTimeKeyboard в true
                 sendMessage.setReplyMarkup(replyKeyboardMarkup); // Установка клавиатуры
+
                 try {
                     execute(sendMessage);
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
                 }
-            } else {
+            }
+            if (text.equals("/tinder")){
+                System.out.println("here");
+                HashMap<String, String> profile = new HashMap<>();
+                Long chatID = message.getChatId();
+                if (UserExistsChecker.checkUserExistence(String.valueOf(chatID))) {
+//                    Tinder.tinder(chatID);
+                    ptintToTg(chatID, "exit from tinder");
+                }
+                else {
+                    profile = Form.form(String.valueOf(chatID), profile);
+                    RegistrationUsers.signUpUser(profile);
+                    ptintToTg(chatID, "Добавлен новый пользователь");
+                }
+            }
+             else {
                 Long chatID = message.getChatId();
                 String chatIDString = chatID.toString();
                 try {

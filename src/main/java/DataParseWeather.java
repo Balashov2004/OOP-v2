@@ -15,7 +15,7 @@ interface WeatherParserInterface {
 public class DataParseWeather implements WeatherParserInterface{
     @Override
     public String getWeather(String lat, String lng) throws IOException {
-
+        System.out.println("this");
         String urlString = "https://api.weather.yandex.ru/v2/forecast?lat=" + lat + "&lon=" + lng + "&lang=ru_RU" + "$limit=3";
         URL url = new URL(urlString);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -24,7 +24,7 @@ public class DataParseWeather implements WeatherParserInterface{
 
         String key = null;
         try {
-            key = new String(Commands.class.getResourceAsStream("/keyYandex.txt").readAllBytes(), StandardCharsets.UTF_8);
+            key = new String(Commands.class.getResourceAsStream("./keyYandex.txt").readAllBytes(), StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
