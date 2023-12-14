@@ -99,9 +99,8 @@ public class Bot extends TelegramLongPollingBot {
                 }
             }
             else if (text.equals("/tinder") || arr[1] == 1){
-//                System.out.println(chatID);
                 if (UserExistsChecker.checkUserExistence(String.valueOf(chatID))) {
-                    ptintToTg(chatID, "exit from tinder");
+                    ptintToTg(chatID, Tinder.tinder(String.valueOf(chatID)));
                 }
                 else {
                     arr[1] = 1;

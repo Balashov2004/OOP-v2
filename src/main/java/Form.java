@@ -11,39 +11,39 @@ public class Form {
                 bot.ptintToTg(Long.valueOf(chatID),"Введите ваш login tg");
                 return profile;
             case 0:
-                bot.ptintToTg(Long.valueOf(chatID),"Введите ваш firstname");
+                bot.ptintToTg(Long.valueOf(chatID),"Введите firstname");
                 profile.put("login", text);
                 return profile;
             case 1:
-                bot.ptintToTg(Long.valueOf(chatID),"Введите ваш lastname");
+                bot.ptintToTg(Long.valueOf(chatID),"Введите lastname");
                 profile.put("firstname", text);
                 return profile;
             case 2:
-                bot.ptintToTg(Long.valueOf(chatID),"Введите ваш city");
+                bot.ptintToTg(Long.valueOf(chatID),"Где проживаете");
                 profile.put("lastname", text);
                 return profile;
             case 3:
-                bot.ptintToTg(Long.valueOf(chatID),"Введите ваш age");
+                bot.ptintToTg(Long.valueOf(chatID),"Введите ваш возраст");
                 profile.put("city", text);
                 return profile;
             case 4:
-                bot.ptintToTg(Long.valueOf(chatID),"Введите ваш gender");
+                bot.ptintToTg(Long.valueOf(chatID),"Введите ваш gender на английском (men/women)");
                 profile.put("age", text);
                 return profile;
             case 5:
-                bot.ptintToTg(Long.valueOf(chatID),"Введите ваш sport");
+                bot.ptintToTg(Long.valueOf(chatID),"Увлекаетись ли вы спортом от 0 до 10");
                 profile.put("gender", text);
                 return profile;
             case 6:
-                bot.ptintToTg(Long.valueOf(chatID),"Введите ваш travel");
+                bot.ptintToTg(Long.valueOf(chatID),"Нравятся ли вам путешествия от 0 до 10");
                 profile.put("sport", text);
                 return profile;
             case 7:
-                bot.ptintToTg(Long.valueOf(chatID),"Введите ваш discos");
+                bot.ptintToTg(Long.valueOf(chatID),"Люибите ходить в клубы от 0 до 10");
                 profile.put("travel", text);
                 return profile;
             case 8:
-                bot.ptintToTg(Long.valueOf(chatID),"Введите ваш aboutMe");
+                bot.ptintToTg(Long.valueOf(chatID),"aboutMe");
                 profile.put("discos", text);
                 return profile;
             case 9:
