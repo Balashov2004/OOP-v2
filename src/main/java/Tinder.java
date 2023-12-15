@@ -19,9 +19,6 @@ public class Tinder {
         }
         Integer[] arr = users.get(String.valueOf(chatID));
         arr[1] = sizeList;
-        if (arr[1] - arr[0] == 0){
-            arr[0] = 0;
-        }
         if (chatID.equals(String.valueOf(userIds.get(arr[0])))){
             arr[0] += 1;
         }
@@ -29,6 +26,9 @@ public class Tinder {
         info1 = GetInfoUser.getUserInfoByID(Integer.valueOf(chatID));
         info2 = GetInfoUser.getUserInfoByID(userIds.get(arr[0]));
         arr[0] += 1;
+        if (arr[1] - arr[0] == 0){
+            arr[0] = 0;
+        }
         users.put(chatID, arr);
 
         int coincide = coincidenceOfInterests(Integer.valueOf(info1.get("sport")), Integer.valueOf(info1.get("travel")),
@@ -72,22 +72,22 @@ public class Tinder {
     public static int coincidenceOfInterests(int a1, int b1, int c1, int a2, int b2, int c2){
         double a, b, c;
         if (a2 >= a1) {
-            a = a1 / a2;
+            a = (double) a1 / a2;
         }
         else{
-            a = a2 / a1;
+            a =  (double) a2 / a1;
         }
         if (b2 >= b1) {
-            b = b1 / b2;
+            b =  (double) b1 / b2;
         }
         else{
-            b = b2 / b1;
+            b = (double) b2 / b1;
         }
         if (c2 >= c1) {
-            c = c1 / c2;
+            c = (double) c1 / c2;
         }
         else{
-            c = c2 / c1;
+            c = (double) c2 / c1;
         }
         return ((int) (((a + b + c) / 3) * 100));
     }

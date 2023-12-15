@@ -31,15 +31,15 @@ public class Form {
                 profile.put("age", text);
                 return profile;
             case 5:
-                bot.ptintToTg(Long.valueOf(chatID),"Увлекаетись ли вы спортом от 0 до 10");
+                bot.ptintToTg(Long.valueOf(chatID),"Увлекаетись ли вы спортом от 1 до 10");
                 profile.put("gender", text);
                 return profile;
             case 6:
-                bot.ptintToTg(Long.valueOf(chatID),"Нравятся ли вам путешествия от 0 до 10");
+                bot.ptintToTg(Long.valueOf(chatID),"Нравятся ли вам путешествия от 1 до 10");
                 profile.put("sport", text);
                 return profile;
             case 7:
-                bot.ptintToTg(Long.valueOf(chatID),"Люибите ходить в клубы от 0 до 10");
+                bot.ptintToTg(Long.valueOf(chatID),"Люибите ходить в клубы от 1 до 10");
                 profile.put("travel", text);
                 return profile;
             case 8:
