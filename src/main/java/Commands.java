@@ -3,6 +3,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
@@ -10,8 +11,6 @@ import java.util.List;
 
 public class Commands {
     static Update update = new Update();
-    static Message message = update.getMessage();
-    static SendMessage sendMessage = new SendMessage();
     private static int jokeCount = 0;
     static Map<String, Integer> chatIDJokeCount = new HashMap<String, Integer>();
     private static Map<String, Boolean> isWaitingForCity = new HashMap<>();
@@ -26,6 +25,8 @@ public class Commands {
             jokeCount = chatIDJokeCount.get(chatID);
         }
         switch (request) {
+
+
             case ("/weather"):
                 String spisok = DataParseCity.parser().toString();
                 //System.out.println(spisok);
@@ -36,6 +37,8 @@ public class Commands {
                     isWaitingForCity.put(chatID, false);
                     return getWeather(cityMap.get(chatID));
                 }
+
+
             case ("/joke"):
                 List<String> jokes = Reader.read("/joke.txt");
                 if (jokeCount == 10) {
@@ -44,8 +47,9 @@ public class Commands {
                 }
                 return jokes.get(jokeCount);
 
-            case ("/wikipedia"):
-                return ("Пока в разработке");
+
+
+
             case ("/game"):
                 return ("В скорой разработке");
             case ("/exit"):
@@ -55,7 +59,8 @@ public class Commands {
                     cityMap.put(chatID, request);
                     isWaitingForCity.put(chatID, false);
                     return getWeather(request);
-                } else {
+                }
+                else {
                     return ("Вы написали: " + request + "Напишите /help, чтобы узнать список команд");
                 }
         }
@@ -63,10 +68,8 @@ public class Commands {
 
     private static String getWeather(String city) throws IOException {
         CoordinatesParserInterface сoordinatesParser = new DataParseCoordinates();
-        //String[] arrayCoordinate = сoordinatesParser.getCoordinates(city);
         WeatherParserInterface weatherParser = new DataParseWeather();
         CityWeatherService cityWeatherService = new CityWeatherService(сoordinatesParser, weatherParser);
-        //return weatherParser.getWeather(arrayCoordinate[0], arrayCoordinate[1]);
         return cityWeatherService.getCityWeather(city);
     }
 }
