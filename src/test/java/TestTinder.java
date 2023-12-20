@@ -36,7 +36,7 @@ public class TestTinder {
         profile.put("login", "s_balashov_tg");
         profile.put("firstname", "Sasha");
         profile.put("lastname", "Balashov");
-        profile.put("city", "Екатеринбург");
+        profile.put("city", "Ekb");
         profile.put("age", "19");
         profile.put("gender", "men");
         profile.put("sport", "10");

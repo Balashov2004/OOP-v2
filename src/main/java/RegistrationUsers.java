@@ -13,11 +13,7 @@ public class RegistrationUsers{
         try {
             Connection connection = DriverManager.getConnection(url, username, password);
 
-            String sql = "INSERT INTO " + Const.USER_TABLE + "(" +
-                Const.USER_ID + "," + Const.USER_LOGIN + "," + Const.USER_FIRSTNAME + "," + Const.USER_LASTNAME + "," + Const.USER_CITY
-                + "," + Const.USER_AGE + "," + Const.USER_GENDER + "," + Const.USER_SPORT + "," + Const.USER_TRAVEL
-                + "," + Const.USER_DISCOS + "," + Const.USER_ABOUTME + ")"
-                + "VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO %s(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)VALUES(?,?,?,?,?,?,?,?,?,?,?)".formatted(Const.USER_TABLE, Const.USER_ID, Const.USER_LOGIN, Const.USER_FIRSTNAME, Const.USER_LASTNAME, Const.USER_CITY, Const.USER_AGE, Const.USER_GENDER, Const.USER_SPORT, Const.USER_TRAVEL, Const.USER_DISCOS, Const.USER_ABOUTME);
 
             PreparedStatement statement = connection.prepareStatement(sql);
 
