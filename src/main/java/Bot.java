@@ -1,6 +1,5 @@
-import com.google.protobuf.StringValue;
+
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -8,13 +7,11 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMar
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
-import org.telegram.telegrambots.meta.updateshandlers.SentCallback;
+
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -48,26 +45,21 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
-//    public int count = -2;
-//    public boolean flag = false;
-    public HashMap<String, HashMap<String, String>> profiles = new HashMap<>();
-    public HashMap<String, Integer[]> dictionary = new HashMap<>();
+    private LogicsTinder logicsTinder;
+
+    public Bot() {
+        logicsTinder = new LogicsTinder(this);
+    }
+
+
+    private DictionaryValue dictionaryValue = new DictionaryValue();
+
     @Override
     public void onUpdateReceived(Update update) {
         String[] listCommand = {"/help: список команд", "/exit: завершить работу", "/weather: погода", "/joke: анекдотыа", "/tinder: знакомства", "/game: blackjacke"};
         Message message = update.getMessage();
         String answer = "";
         Long chatID = message.getChatId();
-        if (!dictionary.containsKey(String.valueOf(chatID))) {
-            Integer[] values = {-2, 0};
-            dictionary.put(String.valueOf(chatID), values);
-        }
-        Integer[] arr = dictionary.get(String.valueOf(chatID));
-        if(!profiles.containsKey(String.valueOf(chatID))){
-            HashMap<String, String> profile = new HashMap<>();
-            profiles.put(String.valueOf(chatID), profile);
-        }
-        HashMap<String, String> profil = profiles.get(String.valueOf(chatID));
 
         if (message.hasText()) {
             String text = message.getText();
@@ -98,27 +90,8 @@ public class Bot extends TelegramLongPollingBot {
                     e.printStackTrace();
                 }
             }
-            else if (text.equals("/tinder") || arr[1] == 1){
-                if (UserExistsChecker.checkUserExistence(String.valueOf(chatID))) {
-                    ptintToTg(chatID, Tinder.tinder(String.valueOf(chatID)));
-                }
-                else {
-                    arr[1] = 1;
-                    if (arr[0] < 9) {
-                        arr[0] += 1;
-                        dictionary.put(String.valueOf(chatID), arr);
-                        profil = Form.form(String.valueOf(chatID), profil, arr[0], text);
-                        profiles.put(String.valueOf(chatID), profil);
-                    }
-                    else {
-                        arr[0] = -2;
-                        arr[1] = 0;
-                        dictionary.put(String.valueOf(chatID), arr);
-                        RegistrationUsers.signUpUser(profil);
-                        profil.clear();
-                        ptintToTg(chatID, "Добавлен новый пользователь");
-                    }
-                }
+            else if (text.equals("/tinder") || dictionaryValue.getFlag(String.valueOf(String.valueOf(chatID))) == 1){
+                logicsTinder.logics(String.valueOf(chatID), text);
             }
              else {
                 String chatIDString = chatID.toString();

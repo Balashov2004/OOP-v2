@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class RegistrationUsers{
 
-    public static void signUpUser(HashMap<String, String> profile){
+    public void signUpUser(HashMap<String, String> profile){
         String url = "jdbc:mysql://localhost:3306/tinder?serverTimezone=UTC";
         String username = "root";
         String password = "1234";

@@ -4,8 +4,19 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class Form {
-    public static HashMap<String, String> form(String chatID, HashMap<String, String> profile, int request, String text){
+    private Bot bot;
+
+    public Form(Bot bot) {
+        this.bot = bot;
+    }
+
+    public Form() {}
+
+    public HashMap<String, String> form(String chatID, HashMap<String, String> profile, int request, String text){
         Bot bot = new Bot();
+
+
+
         switch (request) {
             case -1:
                 bot.ptintToTg(Long.valueOf(chatID),"Введите ваш login tg");

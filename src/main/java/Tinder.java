@@ -9,8 +9,9 @@ public class Tinder {
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "1234";
     private static HashMap<String, Integer[]> users = new HashMap<>();
+    private СoincidenceOfInterests coincidenceOfInterests = new СoincidenceOfInterests();
 
-    public static String tinder(String chatID){
+    public String tinder(String chatID){
         List<Integer> userIds= getAllUserIdsFromMySQL();
         int sizeList = userIds.size();
         if (!users.containsKey(String.valueOf(chatID))) {
@@ -31,7 +32,7 @@ public class Tinder {
         }
         users.put(chatID, arr);
 
-        int coincide = coincidenceOfInterests(Integer.valueOf(info1.get("sport")), Integer.valueOf(info1.get("travel")),
+        int coincide = coincidenceOfInterests.firstvariant(Integer.valueOf(info1.get("sport")), Integer.valueOf(info1.get("travel")),
                 Integer.valueOf(info1.get("discos")), Integer.valueOf(info2.get("sport")),
                 Integer.valueOf(info2.get("travel")), Integer.valueOf(info2.get("discos")));
 
@@ -51,7 +52,7 @@ public class Tinder {
 
     }
 
-    public static List<Integer> getAllUserIdsFromMySQL() {
+    public List<Integer> getAllUserIdsFromMySQL() {
         List<Integer> userIds = new ArrayList<>();
 
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
@@ -68,28 +69,4 @@ public class Tinder {
 
         return userIds;
     }
-
-    public static int coincidenceOfInterests(int a1, int b1, int c1, int a2, int b2, int c2){
-        double a, b, c;
-        if (a2 >= a1) {
-            a = (double) a1 / a2;
-        }
-        else{
-            a =  (double) a2 / a1;
-        }
-        if (b2 >= b1) {
-            b =  (double) b1 / b2;
-        }
-        else{
-            b = (double) b2 / b1;
-        }
-        if (c2 >= c1) {
-            c = (double) c1 / c2;
-        }
-        else{
-            c = (double) c2 / c1;
-        }
-        return ((int) (((a + b + c) / 3) * 100));
-    }
-
 }
